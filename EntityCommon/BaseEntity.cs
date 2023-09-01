@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace ConduitAPI.EntityCommon
+namespace counduitApi.EntityCommon
 {
+
     public class BaseEntity<T>
     {
         [Key]

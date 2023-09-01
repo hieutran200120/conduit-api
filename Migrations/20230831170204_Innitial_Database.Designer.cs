@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using counduitApi;
@@ -11,9 +12,10 @@ using counduitApi;
 namespace counduitApi.Migrations
 {
     [DbContext(typeof(MainDbcontext))]
-    partial class MainDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20230831170204_Innitial_Database")]
+    partial class Innitial_Database
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

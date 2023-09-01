@@ -1,19 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ConduitAPI
+namespace counduitApi
 {
-    public class MainDbContext : DbContext
+    public class MainDbcontext : DbContext
     {
         public static string UserSchema = "user";
         public static string ArticleSchema = "article";
+        public static string CommentSchema = "comment";
+        public static string Favoriteschema = "Favorite";
 
-        public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
+        public MainDbcontext(DbContextOptions<MainDbcontext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("pgcrypto")
-                .HasPostgresExtension("uuid-ossp");
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
+          
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbcontext).Assembly);
         }
     }
+
 }

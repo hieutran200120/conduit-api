@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using counduitApi.EntityCommon;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using ConduitAPI.EntityCommon;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConduitAPI.Entities
+namespace counduitApi.Entities
 {
     public class User : BaseEntity<Guid>
     {
@@ -14,13 +14,16 @@ namespace ConduitAPI.Entities
         public string Bio { get; set; }
         public ICollection<Follow> Followers { get; set; }
         public ICollection<Follow> Followings { get; set; }
+        public ICollection<Article> Articles { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
     }
 
     public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable(nameof(User), MainDbContext.UserSchema);
+            builder.ToTable(nameof(User), MainDbcontext.UserSchema);
             builder.Property(x => x.Email).IsRequired();
             builder.Property(x => x.Username).IsRequired();
             builder.Property(x => x.Password).IsRequired();

@@ -1,4 +1,4 @@
-namespace counduitApi
+namespace ConduitAPI
 {
     public class WeatherForecast
     {

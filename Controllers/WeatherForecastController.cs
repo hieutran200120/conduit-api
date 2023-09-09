@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace counduitApi.Controllers
+namespace ConduitAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

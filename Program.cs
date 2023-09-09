@@ -1,4 +1,5 @@
 using ConduitAPI;
+using ConduitAPI.Services.Users;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MainDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConduitAPI")));
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

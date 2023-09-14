@@ -20,10 +20,17 @@ namespace ConduitAPI.Controllers
             var res = await _userService.Register(request);
             return Ok(res);
         }
+        //TODO: remove username when implement authenticate
         [HttpGet("{username}")]
         public async Task<IActionResult> GetCurrentUser(string username)
         {
             var res = await _userService.GetCurrentUser(username);
+            return Ok(res);
+        }
+        [HttpPut("{username}")]
+        public async Task<IActionResult> UpdateCurrentUser(string username, UpdateCurrentUserRequestDto request)
+        {
+            var res = await _userService.UpdateCurrentUser(username, request);
             return Ok(res);
         }
     }

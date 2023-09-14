@@ -1,4 +1,4 @@
-﻿using ConduitAPI.Entitycommon;
+﻿using ConduitAPI.EntityCommon;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 

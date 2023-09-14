@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using ConduitAPI.Entitycommon;
+using ConduitAPI.EntityCommon;
 
 namespace ConduitAPI.Entities
 {

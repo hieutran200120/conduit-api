@@ -1,4 +1,4 @@
-﻿using ConduitAPI.Entitycommon;
+﻿using ConduitAPI.EntityCommon;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +10,7 @@ namespace ConduitAPI.Entities
         public string Password { get; set; }
         public string Email { get; set; }
         public string Bio { get; set; }
+        public string Image { get; set; }
         public ICollection<Follow> Followers { get; set; }
         public ICollection<Follow> Followings { get; set; }
         public ICollection<Article> Articles { get; set; }

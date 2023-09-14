@@ -1,5 +1,5 @@
 ﻿using ConduitAPI.Entities;
-using ConduitAPI.Entitycommon;
+using ConduitAPI.EntityCommon;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConduitAPI

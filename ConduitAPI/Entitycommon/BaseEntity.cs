@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ConduitAPI.EntityCommon
 {
-    public class BaseEntity<T>:IAuditInfo
+    public class BaseEntity<T>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -1,5 +1,6 @@
 using ConduitAPI;
-using Microsoft.EntityFrameworkCore;
+using ConduitAPI.Extensions;
+using ConduitAPI.Services.Articles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MainDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConduitAPI")));
+builder.Services.ConfigDIBusinessService();
+builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureMigration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

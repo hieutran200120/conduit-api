@@ -9,6 +9,7 @@ namespace ConduitAPI
         public static string UserSchema = "user";
         public static string ArticleSchema = "article";
         public DbSet<User> Users { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

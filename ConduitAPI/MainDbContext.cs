@@ -16,6 +16,7 @@ namespace ConduitAPI
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
         }
+<<<<<<< HEAD
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             AddAuditInfo();
@@ -38,5 +39,8 @@ namespace ConduitAPI
                 }
             }
         }
+=======
+
+>>>>>>> origin/dev
     }
 }

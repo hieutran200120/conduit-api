@@ -1,10 +1,14 @@
 ﻿
+<<<<<<< HEAD
 using ConduitAPI.Service.Users.Dtos;
 using ConduitAPI.Service.Users;
+=======
+>>>>>>> origin/dev
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConduitAPI.Controllers
 {
+<<<<<<< HEAD
     [Route("api/[controller]")] //repository, mediator, cqrs, DI, // S.O.L.I.D : S-> Single Responsibilty
     [ApiController]
     public class UsersController : ControllerBase
@@ -54,5 +58,11 @@ namespace ConduitAPI.Controllers
             var user = await _userService.DeleteUser( username);
             return Ok(user);
         }
+=======
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+>>>>>>> origin/dev
     }
 }

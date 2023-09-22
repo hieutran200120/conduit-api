@@ -1,4 +1,5 @@
-﻿using ConduitAPI.Services.Articles;
+﻿using ConduitAPI.Infrastructure.Auth;
+using ConduitAPI.Services.Articles;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConduitAPI.Extensions
@@ -23,6 +24,11 @@ namespace ConduitAPI.Extensions
             {
                 mainDbContext.Database.Migrate();
             }
+        }
+
+        public static void ConfiureAuthService(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthService, AuthService>();
         }
     }
 }

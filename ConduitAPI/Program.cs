@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigDIBusinessService();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureMigration();
+builder.Services.ConfiureAuthService();
 
 var app = builder.Build();
 

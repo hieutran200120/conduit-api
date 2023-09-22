@@ -1,6 +1,8 @@
 using ConduitAPI;
 using ConduitAPI.Extensions;
+using ConduitAPI.Infrastructure.Middleware;
 using ConduitAPI.Services.Articles;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigDIBusinessService();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureMigration();
-builder.Services.ConfiureAuthService();
+builder.Services.ConfigureAuth(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -25,9 +28,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();

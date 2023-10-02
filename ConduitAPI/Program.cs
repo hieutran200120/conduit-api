@@ -1,4 +1,8 @@
 using ConduitAPI;
+<<<<<<< HEAD
+using ConduitAPI.Service.Users;
+=======
+>>>>>>> origin/dev
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MainDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConduitAPI")));
+<<<<<<< HEAD
+builder.Services.AddScoped<IUserService, UserService>();
+=======
+>>>>>>> origin/dev
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

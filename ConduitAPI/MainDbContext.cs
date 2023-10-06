@@ -31,7 +31,7 @@ namespace ConduitAPI
             foreach (var entry in entries)
             {
                 ((IAuditInfo)entry.Entity).LastUpdatedAt = DateTime.UtcNow;
-                if (entry.State == EntityState.Added) 
+                if (entry.State == EntityState.Added)
                 {
                     ((IAuditInfo)entry.Entity).CreatedAt = DateTime.UtcNow;
                 }

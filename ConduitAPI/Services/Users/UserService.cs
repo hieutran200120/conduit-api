@@ -2,7 +2,9 @@
 using ConduitAPI.Infrastructure.Auth;
 using ConduitAPI.Infrastructure.Exceptions;
 using ConduitAPI.Services.Users.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace ConduitAPI.Services.Users
 {
@@ -11,11 +13,13 @@ namespace ConduitAPI.Services.Users
         private readonly MainDbContext _mainDbContext;
         private readonly IAuthService _authService;
         private readonly ICurrentUser _currentUser;
-        public UserService(MainDbContext mainDbContext, IAuthService authService, ICurrentUser currentUser) 
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public UserService(MainDbContext mainDbContext, IAuthService authService, ICurrentUser currentUser, IWebHostEnvironment hostEnvironment) 
         {
             _mainDbContext = mainDbContext;
             _authService = authService;
             _currentUser = currentUser;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<UserDto> GetCurrentUser()
@@ -26,7 +30,7 @@ namespace ConduitAPI.Services.Users
                 {
                     Bio = x.Bio,
                     Email = x.Email,
-                    Image = "", //TODO: Update image for entity user later
+                    Image =x.Image, 
                     Username = x.Username,
                     Token = "" //TODO: Update toke with authen later
 
@@ -49,13 +53,13 @@ namespace ConduitAPI.Services.Users
             user.Bio = request.Bio;
             user.Email = request.Email;
             user.Username = request.Username;
-            //TODO: update image
+            
             await _mainDbContext.SaveChangesAsync();
             return new UserDto
             {
                 Bio = user.Bio,
                 Email = user.Email,
-                Image = "", //TODO: Update image for entity user later
+                Image =user.Image, 
                 Username = user.Username,
                 Token = "" //TODO: Update toke with authen later
             };
@@ -69,16 +73,50 @@ namespace ConduitAPI.Services.Users
                 Email = request.Email,
                 Password = _authService.HashPassword(request.Password),
             };
+            user.Image = await SaveImage(request.ImageFile);
             _mainDbContext.Users.Add(user);
             await _mainDbContext.SaveChangesAsync();
             return new UserDto
             {
                 Bio = user.Bio,
                 Email = user.Email,
-                Image = "", //TODO: Update image for entity user later
+                Image =user.Image, 
                 Username = user.Username,
                 Token = _authService.GenerateToken(user)
             };
+        }
+        public async Task<UserDto> Login(LoginRequestDto Request)
+        {
+            var user = await _mainDbContext.Users.FirstOrDefaultAsync(a => a.Email == Request.Email);
+            if (user == null)
+            {
+                throw new Exception("Không có email này");
+            }
+            bool checkPassword = _authService.VerifyPassword(Request.Password, user.Password);
+            if (!checkPassword)
+            {
+                throw new Exception("mật khẩu không hợp lệ");
+            }
+            return new UserDto 
+            {
+                Bio = user.Bio,
+                Email = user.Email,
+                Image = user.Image,
+                Username = user.Username,
+                Token = _authService.GenerateToken(user) 
+            };
+        }
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "Images", imageName);
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+            return imageName;
         }
     }
 }

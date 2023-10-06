@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConduitAPI.Controllers
 {
-    [Route("api/[controller]")] //repository, mediator, cqrs, DI, // S.O.L.I.D : S-> Single Responsibilty
+    [Route("api/[controller]")] 
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -17,9 +17,10 @@ namespace ConduitAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginRequestDto Request)
         {
-            return Ok("Login success");
+            var res = await _userService.Login(Request);
+            return Ok(res);
         }
 
         //TODO: remove username when implement authenticate

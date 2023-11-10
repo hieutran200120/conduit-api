@@ -15,5 +15,10 @@ namespace ConduitAPI.Infrastructure.LinQ
                 return source.Where(predicate);
             }
         }
+        public static IQueryable<TSource> Paging<TSource>(this IQueryable<TSource> source, int pageSize, int pageIndex)
+        {
+            var offset = (Math.Max(pageIndex, 1) - 1) * pageSize;
+            return source.Skip(offset).Take(pageSize);
+        }
     }
 }

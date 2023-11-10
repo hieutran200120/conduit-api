@@ -1,5 +1,7 @@
 ﻿using ConduitAPI.Services.Articles;
 using ConduitAPI.Services.Articles.Dto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConduitAPI.Controllers
@@ -20,5 +22,27 @@ namespace ConduitAPI.Controllers
             var response = await _articleService.GetGlobalArticle(query);
             return Ok(response);
         }
-    }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> PostArticle(PostArticleDto request)
+        {
+            var res= await _articleService.PostArticle(request);
+            return Ok(res);
+        }
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdateArticle( string Slug, UpdateArticleDto request)
+        {
+            var res = await _articleService.UpdateArticle(Slug,request);
+            return Ok(res);
+        }
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteArticle(string Slug)
+        {
+            var res =await _articleService.DeleteArticle(Slug);
+            return Ok(res);
+        }
+        
+	}
 }

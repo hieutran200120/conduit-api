@@ -24,7 +24,7 @@ namespace ConduitAPI.Controllers
         }
 
         //TODO: remove username when implement authenticate
-        [Authorize(Roles = "user, admin")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCurrentUser()
         {
@@ -40,7 +40,7 @@ namespace ConduitAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterRequestDto request)
+        public async Task<IActionResult> Register([FromForm] RegisterRequestDto request)
         {
             var res = await _userService.Register(request);
             return Ok(res);

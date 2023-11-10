@@ -30,11 +30,11 @@ namespace ConduitAPI.Services.Users
                 {
                     Bio = x.Bio,
                     Email = x.Email,
-                    Image =x.Image, 
+                    Image = x.Image,
                     Username = x.Username,
-                    Token = "" //TODO: Update toke with authen later
+                    Token = _authService.GenerateToken(x),
 
-                })
+				})
                 .FirstOrDefaultAsync();
             if (user == null)
             {
@@ -59,9 +59,9 @@ namespace ConduitAPI.Services.Users
             {
                 Bio = user.Bio,
                 Email = user.Email,
-                Image =user.Image, 
+                Image = await SaveImage(request.ImageFile),
                 Username = user.Username,
-                Token = "" //TODO: Update toke with authen later
+                Token = _authService.GenerateToken(user)
             };
         }
 
@@ -72,8 +72,9 @@ namespace ConduitAPI.Services.Users
                 Username = request.Username,
                 Email = request.Email,
                 Password = _authService.HashPassword(request.Password),
-            };
-            user.Image = await SaveImage(request.ImageFile);
+                Image = await SaveImage(request.ImageFile)
+        };
+          /*  user.Image = await SaveImage(request.ImageFile);*/
             _mainDbContext.Users.Add(user);
             await _mainDbContext.SaveChangesAsync();
             return new UserDto
@@ -106,7 +107,7 @@ namespace ConduitAPI.Services.Users
                 Token = _authService.GenerateToken(user) 
             };
         }
-        [NonAction]
+        /*[NonAction]*/
         public async Task<string> SaveImage(IFormFile imageFile)
         {
             string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');

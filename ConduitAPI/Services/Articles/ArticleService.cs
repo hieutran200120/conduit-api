@@ -35,7 +35,7 @@ namespace ConduitAPI.Services.Articles
                     Description = x.Description,
                     Slug = x.Slug,
                     Title = x.Title,
-                    Conten=x.Conten,
+                    Content=x.Content,
                     Author = new ProfileDto
                     {
                         Bio = x.User.Bio,
@@ -55,10 +55,10 @@ namespace ConduitAPI.Services.Articles
             var author = await _mainDbContext.Users.FirstAsync(x => x.Id == _currentUser.Id);
             var article = new Article
             {
-                Slug=request.Slug,
+                Slug= request.Title.GenerateSlug(),
                 Title = request.Title,
                 Description = request.Description,
-                Conten=request.Conten,
+                Content=request.Content,
 				UserId =author.Id,
             };
             await _mainDbContext.Articles.AddAsync(article);
@@ -68,28 +68,28 @@ namespace ConduitAPI.Services.Articles
                 Slug = article.Title.GenerateSlug(),
                 Title = article.Title,
                 Description = article.Description,
-                Conten=article.Conten,
+                Content=article.Content,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,              
             };
         }
         public async Task<UpdateArticleDto> UpdateArticle( string Slug, UpdateArticleDto request)
         {
-            var article= _mainDbContext.Articles.Where(x=>x.Slug == Slug).FirstOrDefault();
+            var article= await _mainDbContext.Articles.Where(x=>x.Slug == Slug).FirstOrDefaultAsync();
             if(article == null)
             {
 				throw new RestException(System.Net.HttpStatusCode.NotFound, "No article");
 			}    
             article.Title = request.Title;
             article.Description = request.Description;
-            article.Conten =request.Conten;
+            article.Content =request.Content;
             article.Slug= request.Title.GenerateSlug();
             await _mainDbContext.SaveChangesAsync();
             return new UpdateArticleDto
 			{
                 Title = article.Title,
                 Description = article.Description,
-                Conten=article.Conten,
+                Content=article.Content,
             }; 
         }
         public async Task<ArticleDto> DeleteArticle(string Slug)
@@ -100,9 +100,9 @@ namespace ConduitAPI.Services.Articles
             return new ArticleDto
             {
 				Description = article.Description,
-				Slug = article.Slug,
+				Slug = article.Title.GenerateSlug(),
 				Title = article.Title,
-				Conten = article.Conten				
+				Content = article.Content				
 			};
 
         }    

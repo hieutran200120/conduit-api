@@ -7,7 +7,7 @@ namespace ConduitAPI.Services.Articles.Dto
         public string Slug { get; init; }
         public string Title { get; init; }
         public string Description { get; init; }
-		public string Conten { get; init; }
+		public string Content { get; init; }
 		public ProfileDto Author { get; init; }
 
     }

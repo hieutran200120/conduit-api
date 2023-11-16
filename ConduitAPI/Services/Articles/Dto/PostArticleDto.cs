@@ -8,7 +8,7 @@ namespace ConduitAPI.Services.Articles.Dto
 
 		public string Description { get; init; }
 
-		public string Conten { get; init; }
+		public string Content { get; init; }
 
 		/*public string[] TagList { get; init; }*/
 		public string Slug { get; init; }

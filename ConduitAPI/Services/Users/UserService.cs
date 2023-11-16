@@ -74,7 +74,6 @@ namespace ConduitAPI.Services.Users
                 Password = _authService.HashPassword(request.Password),
                 Image = await SaveImage(request.ImageFile)
         };
-          /*  user.Image = await SaveImage(request.ImageFile);*/
             _mainDbContext.Users.Add(user);
             await _mainDbContext.SaveChangesAsync();
             return new UserDto

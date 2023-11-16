@@ -6,6 +6,6 @@
 
 		public string Description { get; init; }
 
-		public string Conten { get; init; }
+		public string Content { get; init; }
 	}
 }

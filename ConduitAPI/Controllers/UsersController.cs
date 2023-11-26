@@ -23,7 +23,6 @@ namespace ConduitAPI.Controllers
             return Ok(res);
         }
 
-        //TODO: remove username when implement authenticate
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCurrentUser()

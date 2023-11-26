@@ -28,26 +28,28 @@ namespace ConduitAPI.Services.Articles
                 .WhereIf(!string.IsNullOrEmpty(request.Favorited), x => x.Favorites.Any(i => i.User.Username == request.Favorited))
                 .WhereIf(!string.IsNullOrEmpty(request.Tag), x => x.Tags.Contains(request.Tag))
                 .OrderByDescending(x => x.CreatedAt);
-      
+
             var items = await query
                 .Select(x => new ArticleDto
                 {
                     Description = x.Description,
                     Slug = x.Slug,
                     Title = x.Title,
-                    Content=x.Content,
+                    Content = x.Content,
                     Author = new ProfileDto
                     {
                         Bio = x.User.Bio,
                         Image = x.User.Image,
                         Username = x.User.Username,
-                        Following = false 
+                        Following = false
                     }
                 })
-                 .Paging(request.PageIndex,request.Limit).ToListAsync();
+                 .Paging(request.PageIndex, request.Limit).ToListAsync();
+            var TotalCount = await query.CountAsync();
             return new PagingResponseDto<ArticleDto>
             {
                 Items = items
+
             };
         }
         public async Task<PostArticleDto>PostArticle(PostArticleDto request)

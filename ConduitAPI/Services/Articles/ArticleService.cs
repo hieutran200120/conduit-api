@@ -48,20 +48,43 @@ namespace ConduitAPI.Services.Articles
             var TotalCount = await query.CountAsync();
             return new PagingResponseDto<ArticleDto>
             {
-                Items = items
-
-            };
+                Items = items,
+				TotalCount=TotalCount
+			};
         }
-        public async Task<PostArticleDto>PostArticle(PostArticleDto request)
+		public async Task<ArticleDto> GetArticle(string slug)
+		{
+			var query = await _mainDbContext.Articles
+				.Where(x => x.Slug == slug)
+				.Select(x => new ArticleDto
+				{
+					Description = x.Description,
+					Slug = x.Slug,
+					Title = x.Title,
+					Content = x.Content,
+					Author = new ProfileDto
+					{
+						Bio = x.User.Bio,
+						Image = x.User.Image,
+						Username = x.User.Username,
+						Following = false
+					}
+				})
+				.FirstOrDefaultAsync();
+
+			return query;
+		}
+		public async Task<PostArticleDto>PostArticle(PostArticleDto request)
         {
             var author = await _mainDbContext.Users.FirstAsync(x => x.Id == _currentUser.Id);
             var article = new Article
             {
                 Slug= request.Title.GenerateSlug(),
                 Title = request.Title,
-                Description = request.Description,
+                Description = request.Description, 
                 Content=request.Content,
 				UserId =author.Id,
+                Tags=request.TagList
             };
             await _mainDbContext.Articles.AddAsync(article);
             await _mainDbContext.SaveChangesAsync();
@@ -71,6 +94,7 @@ namespace ConduitAPI.Services.Articles
                 Title = article.Title,
                 Description = article.Description,
                 Content=article.Content,
+                TagList= article.Tags,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,              
             };

@@ -10,7 +10,7 @@ namespace ConduitAPI.Services.Articles.Dto
 
 		public string Content { get; init; }
 
-		/*public string[] TagList { get; init; }*/
+		public string[] TagList { get; init; }
 		public string Slug { get; init; }
 		public DateTime CreatedAt { get; init; }
 		public DateTime UpdatedAt { get; init;}

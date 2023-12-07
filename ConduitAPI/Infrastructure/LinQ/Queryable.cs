@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using ConduitAPI.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ConduitAPI.Infrastructure.LinQ
 {
@@ -20,5 +22,6 @@ namespace ConduitAPI.Infrastructure.LinQ
             var offset = (Math.Max(pageIndex, 1) - 1) * pageSize;
             return source.Skip(offset).Take(pageSize);
         }
-    }
+	
+	}
 }

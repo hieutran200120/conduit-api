@@ -22,21 +22,24 @@ namespace ConduitAPI.Controllers
             var response = await _articleService.GetGlobalArticle(query);
             return Ok(response);
         }
-        [Authorize]
-        [HttpPost]
+		[HttpGet("{slug}")]
+		public async Task<IActionResult> GetArticle( string slug)
+		{
+			var response = await _articleService.GetArticle(slug);
+			return Ok(response);
+		}
+		[HttpPost]
         public async Task<IActionResult> PostArticle(PostArticleDto request)
         {
             var res= await _articleService.PostArticle(request);
             return Ok(res);
         }
-        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateArticle( string Slug, UpdateArticleDto request)
         {
             var res = await _articleService.UpdateArticle(Slug,request);
             return Ok(res);
         }
-        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> DeleteArticle(string Slug)
         {

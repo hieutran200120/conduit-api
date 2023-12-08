@@ -1,11 +1,12 @@
-﻿
-using ConduitAPI.Service.Users.Dtos;
-using ConduitAPI.Service.Users;
+
+using ConduitAPI.Services.Users;
+using ConduitAPI.Services.Users.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConduitAPI.Controllers
 {
-    [Route("api/[controller]")] //repository, mediator, cqrs, DI, // S.O.L.I.D : S-> Single Responsibilty
+    [Route("api/[controller]")] 
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -16,16 +17,17 @@ namespace ConduitAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginRequestDto Request)
         {
-            return Ok("Login success");
+            var res = await _userService.Login(Request);
+            return Ok(res);
         }
 
-        //TODO: remove username when implement authenticate
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetCurrentUser(string username)
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUser()
         {
-            var res = await _userService.GetCurrentUser(username);
+            var res = await _userService.GetCurrentUser();
             return Ok(res);
         }
 
@@ -37,22 +39,10 @@ namespace ConduitAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterRequestDto request)
+        public async Task<IActionResult> Register([FromForm] RegisterRequestDto request)
         {
             var res = await _userService.Register(request);
             return Ok(res);
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetAllUser()
-        {
-            var user = await _userService.GetAllUser();
-            return Ok(user);
-        }
-        [HttpDelete]
-        public async Task<IActionResult> DeleteUser(string username)
-        {
-            var user = await _userService.DeleteUser(username);
-            return Ok(user);
         }
     }
 }

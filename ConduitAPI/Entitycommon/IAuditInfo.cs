@@ -1,6 +1,8 @@
 ﻿namespace ConduitAPI.EntityCommon
 {
-    public class IAuditInfo
+
+    public interface IAuditInfo
+
     {
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }

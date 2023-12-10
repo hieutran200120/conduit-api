@@ -41,9 +41,10 @@ namespace ConduitAPI.Services.Articles
                         Bio = x.User.Bio,
                         Image = x.User.Image,
                         Username = x.User.Username,
-                        Following = false
-                    }
-                })
+						Following = x.User.Followers.Any(x => x.FollowerId == _currentUser.Id),
+					},
+					FavoritesCount = x.Favorites.Count()
+				})
                  .Paging(request.PageIndex, request.Limit).ToListAsync();
             var TotalCount = await query.CountAsync();
             return new PagingResponseDto<ArticleDto>
@@ -67,8 +68,11 @@ namespace ConduitAPI.Services.Articles
 						Bio = x.User.Bio,
 						Image = x.User.Image,
 						Username = x.User.Username,
-						Following = false
-					}
+						Following = x.User.Followers.Any(x=>x.FollowerId==_currentUser.Id),
+					},
+					/*Favorited=x.Favorites.Any(x=>x.ArticleId==_currentUser.Id)*/
+
+					FavoritesCount =x.Favorites.Count()
 				})
 				.FirstOrDefaultAsync();
 

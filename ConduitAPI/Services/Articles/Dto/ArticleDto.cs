@@ -8,6 +8,8 @@ namespace ConduitAPI.Services.Articles.Dto
         public string Title { get; init; }
         public string Description { get; init; }
 		public string Content { get; init; }
+		public bool Favorited { get; init; }
+		public int FavoritesCount { get; init; }
 		public ProfileDto Author { get; init; }
 
     }

@@ -17,18 +17,18 @@ namespace ConduitAPI.Controllers
 			_commentServicecs = commentServicec;
 		}
 		[HttpGet]
-		public async Task<IActionResult> GetComment(CommentDto request)
+		public async Task<IActionResult> GetComment()
 		{
-			var response = await _commentServicecs.GetComment(request);
+			var response = await _commentServicecs.GetComment();
 			return Ok(response);
 		}
-		[HttpPost("{slug}/comments")]
-		public async Task<IActionResult> PostComment(CommentDto request, string slug)
+		[HttpPost("{slug}")]
+		public async Task<IActionResult> PostComment([FromBody] PostCommentDto request)
 		{
-			var response = await _commentServicecs.PostComment(request,slug);
+			var response = await _commentServicecs.PostComment(request);
 			return Ok(response);
 		}
-		[HttpDelete("{slug}/comments/{id}")]
+		[HttpDelete("{slug}/{id}")]
 		public async Task<IActionResult> DeleteComment(int id, string slug)
 		{
 			var response = await _commentServicecs.DeleteComment(id, slug);

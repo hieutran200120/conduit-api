@@ -1,9 +1,11 @@
-﻿using ConduitAPI.Services.Profile.Dto;
+﻿using ConduitAPI.Infrastructure.CommonDto;
+using ConduitAPI.Services.Profile.Dto;
 
 namespace ConduitAPI.Services.Articles.Dto
 {
 	public class PostArticleDto
 	{
+		public int Id { get; set; }
 		public string Title { get; init; }
 
 		public string Description { get; init; }
@@ -12,7 +14,6 @@ namespace ConduitAPI.Services.Articles.Dto
 
 		public string[] TagList { get; init; }
 		public string Slug { get; init; }
-		public DateTime CreatedAt { get; init; }
-		public DateTime UpdatedAt { get; init;}
+
 	}
 }

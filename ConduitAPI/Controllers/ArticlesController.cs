@@ -28,8 +28,10 @@ namespace ConduitAPI.Controllers
 			var response = await _articleService.GetArticle(slug);
 			return Ok(response);
 		}
-		[HttpPost]
-        public async Task<IActionResult> PostArticle(PostArticleDto request)
+    
+        [HttpPost] 
+        
+        public async Task<IActionResult> PostArticle([FromBody] PostArticleDto request)
         {
             var res= await _articleService.PostArticle(request);
             return Ok(res);

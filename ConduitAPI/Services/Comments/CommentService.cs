@@ -2,6 +2,7 @@
 using ConduitAPI.Infrastructure.Auth;
 using ConduitAPI.Infrastructure.CommonDto;
 using ConduitAPI.Infrastructure.LinQ;
+using ConduitAPI.Migrations;
 using ConduitAPI.Services.Articles.Dto;
 using ConduitAPI.Services.Comments.Dto;
 using ConduitAPI.Services.Profile.Dto;
@@ -19,7 +20,7 @@ namespace ConduitAPI.Services.Comments
 			_mainDbContext = mainDbContext;
 			_currentUser = currentUser;
 		}
-		public async Task<PagingResponseDto<CommentDto>> GetComment(CommentDto request)
+		public async Task<PagingResponseDto<CommentDto>> GetComment()
 		{
 			var query = await _mainDbContext.Comments
 				.Select(x => new CommentDto
@@ -34,7 +35,7 @@ namespace ConduitAPI.Services.Comments
 					},
 					
 				})
-				 .Paging(request.PageIndex, request.Limit).ToListAsync();
+				 .ToListAsync();
 			var TotalCount =  query.Count();
 			return new PagingResponseDto<CommentDto>
 			{
@@ -42,23 +43,18 @@ namespace ConduitAPI.Services.Comments
 				TotalCount = TotalCount
 			};
 		}
-		public async Task<CommentDto> PostComment(CommentDto request,string slug)
+		public async Task<CommentDto> PostComment(PostCommentDto request)
 		{
-			var article = await _mainDbContext.Articles
-			   .Include(x => x.Comments)
-			   .FirstOrDefaultAsync(x => x.Slug == slug);
-			var author = await _mainDbContext.Users.FirstAsync(x => x.Id == _currentUser.Id);
-			var comment = new Comment
+            var comment = new Comment
 			{
-				User = author,
-				CommentContent = request.CommentContent,
+                UserId = (Guid)_currentUser.Id,
+                CommentContent = request.CommentContent,
+				ArticleId = request.ArticleId,
 			};
-			_mainDbContext.Comments.Add(comment);
-			article.Comments.Add(comment);
-			await _mainDbContext.SaveChangesAsync();
-			return new CommentDto
+            await _mainDbContext.Comments.AddAsync(comment);
+            await _mainDbContext.SaveChangesAsync();
+            return new CommentDto
 			{
-				/*Author = author,*/
 				CommentContent = comment.CommentContent
 			};
 		}

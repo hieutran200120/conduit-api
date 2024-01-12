@@ -8,7 +8,7 @@ namespace ConduitAPI.Infrastructure.LinQ
 		private static Regex MultipleSpacesRegex = new Regex("\\s+");
 		private static Regex TrimRegex = new Regex("\\s");
 
-		public static string GenerateSlug(this string? phrase)
+		public static string GenerateSlug(this string phrase)
 		{
 			if (phrase is null)
 			{
